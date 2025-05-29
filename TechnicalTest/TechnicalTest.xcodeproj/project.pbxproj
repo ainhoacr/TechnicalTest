@@ -6,6 +6,11 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		7C254FFF2DE86A59008C1F47 /* (null) in Frameworks */ = {isa = PBXBuildFile; };
+		7C2552962DE90B98008C1F47 /* APIClient in Frameworks */ = {isa = PBXBuildFile; productRef = 7C2552952DE90B98008C1F47 /* APIClient */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		7C254FDC2DE8698F008C1F47 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -45,6 +50,11 @@
 			path = TechnicalTestUITests;
 			sourceTree = "<group>";
 		};
+		7C254FFA2DE869BD008C1F47 /* Modules */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Modules;
+			sourceTree = "<group>";
+		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -52,6 +62,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7C2552962DE90B98008C1F47 /* APIClient in Frameworks */,
+				7C254FFF2DE86A59008C1F47 /* (null) in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -75,6 +87,7 @@
 		7C254FC52DE8698E008C1F47 = {
 			isa = PBXGroup;
 			children = (
+				7C254FFA2DE869BD008C1F47 /* Modules */,
 				7C254FD02DE8698E008C1F47 /* TechnicalTest */,
 				7C254FDE2DE8698F008C1F47 /* TechnicalTestTests */,
 				7C254FE82DE86990008C1F47 /* TechnicalTestUITests */,
@@ -109,9 +122,11 @@
 			);
 			fileSystemSynchronizedGroups = (
 				7C254FD02DE8698E008C1F47 /* TechnicalTest */,
+				7C254FFA2DE869BD008C1F47 /* Modules */,
 			);
 			name = TechnicalTest;
 			packageProductDependencies = (
+				7C2552952DE90B98008C1F47 /* APIClient */,
 			);
 			productName = TechnicalTest;
 			productReference = 7C254FCE2DE8698E008C1F47 /* TechnicalTest.app */;
@@ -192,9 +207,13 @@
 			knownRegions = (
 				en,
 				Base,
+				es,
 			);
 			mainGroup = 7C254FC52DE8698E008C1F47;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				7C2552942DE90B98008C1F47 /* XCLocalSwiftPackageReference "Modules/APIClient" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 7C254FCF2DE8698E008C1F47 /* Products */;
 			projectDirPath = "";
@@ -329,7 +348,9 @@
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 6.0;
 			};
 			name = Debug;
 		};
@@ -386,6 +407,8 @@
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 6.0;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -558,6 +581,20 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCLocalSwiftPackageReference section */
+		7C2552942DE90B98008C1F47 /* XCLocalSwiftPackageReference "Modules/APIClient" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = Modules/APIClient;
+		};
+/* End XCLocalSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		7C2552952DE90B98008C1F47 /* APIClient */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = APIClient;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 7C254FC62DE8698E008C1F47 /* Project object */;
 }
