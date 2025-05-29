@@ -1,0 +1,63 @@
+# Archivos de macOS
+.DS_Store
+
+# Archivos de compilación
+build/
+DerivedData/
+
+# Archivos generados automáticamente
+*.xcuserstate
+*.xcworkspace
+*.xcodeproj/project.xcworkspace/xcuserdata/
+*.xcodeproj/xcuserdata/
+
+# Archivos de configuración de usuario
+*.xcodeproj/project.xcworkspace/xcuserdata/
+*.xcodeproj/xcuserdata/
+*.xcscmblueprint
+
+# Archivos de estado de breakpoints, schemes y configuraciones personales
+*.xccheckout
+*.moved-aside
+*.swp
+*.mode1v3
+*.mode2v3
+*.dat
+*.dat.old
+*.pyc
+
+# Archivos específicos de Carthage
+Carthage/Checkouts/
+Carthage/Build/
+
+# Archivos específicos de CocoaPods
+Pods/
+Podfile.lock
+
+# Archivos de Swift Package Manager
+.build/
+Package.resolved
+
+# Archivos de configuración de Fastlane
+fastlane/report.xml
+fastlane/screenshots/
+fastlane/test_output/
+
+# Archivos de cobertura de código
+*.gcno
+*.gcda
+*.profdata
+
+# Archivos de logs de depuración y registros
+*.log
+
+# Archivos relacionados con Playgrounds
+timeline.xctimeline
+playground.xcworkspace
+
+# Otros archivos de entorno local
+.env
+*.key
+*.crt
+
+.bin
