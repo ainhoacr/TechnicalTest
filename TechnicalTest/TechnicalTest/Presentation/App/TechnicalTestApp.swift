@@ -11,7 +11,9 @@ import SwiftUI
 struct TechnicalTestApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            CharacterListView(
+                viewModel: DependencyContainer.shared.makeCharacterListViewModel()
+            )
         }
     }
 }
