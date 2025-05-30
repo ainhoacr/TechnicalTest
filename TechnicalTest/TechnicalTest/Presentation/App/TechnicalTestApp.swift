@@ -9,6 +9,11 @@ import SwiftUI
 
 @main
 struct TechnicalTestApp: App {
+
+    init() {
+        _ = ImageCacheManager.shared
+    }
+
     var body: some Scene {
         WindowGroup {
             CharacterListView(
