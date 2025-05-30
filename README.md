@@ -28,19 +28,15 @@ Se sigue el patrón Clean Architecture con separación clara de responsabilidade
 TechnicalTest/
 ├── Domain/
 │   └── UseCases/
-│       └── GetCharactersUseCase.swift
-├── Infrastructure/
+├── Infrastructure/ 
+│   ├── ImageCache/
 │   └── DependencyContainer.swift
 ├── Presentation/
 │   ├── App/
 │   │   └── TechnicalTestApp.swift
 │   ├── Views/
 │   │   ├── Character List/
-│   │   │   ├── CharacterListView.swift
-│   │   │   └── CharacterListViewModel.swift
 │   │   └── Components/
-│   │       ├── CharacterCardView.swift
-│   │       └── LoadingView.swift
 ├── Resources/
 │   ├── Assets/
 │   └── Localizable.strings
