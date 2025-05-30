@@ -1,0 +1,92 @@
+name: Run All Unit Tests (SPM + iOS)
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  run-all-tests:
+    runs-on: macos-14
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Debug - Project structure
+      run: |
+        echo "=== Root directory ==="
+        ls -la
+        echo "=== TechnicalTest/Modules/APIClient ==="
+        ls -la TechnicalTest/Modules/APIClient/ || echo "APIClient path not found"
+        echo "=== Looking for .xcodeproj ==="
+        find . -name "*.xcodeproj" -type d
+
+    - name: Select Xcode 16.4
+      run: |
+        sudo xcode-select -s /Applications/Xcode_16.4.app/Contents/Developer
+
+    - name: Verify Swift version
+      run: swift --version
+
+    # 1. Test Swift Package (APIClient)
+    - name: Run APIClient Swift Package tests
+      working-directory: ./TechnicalTest/Modules/APIClient
+      run: |
+        echo "=== Current directory ==="
+        pwd
+        echo "=== Files in APIClient ==="
+        ls -la
+        echo "=== Package.swift content (first 10 lines) ==="
+        head -10 Package.swift || echo "Package.swift not found"
+        echo "=== Running tests ==="
+        swift test --enable-code-coverage --verbose
+
+    # 2. Test iOS App (TechnicalTest)
+    - name: Run TechnicalTest iOS app tests
+      run: |
+        echo "=== Available schemes ==="
+        xcodebuild -list -project TechnicalTest.xcodeproj || \
+        xcodebuild -list -project TechnicalTest/TechnicalTest.xcodeproj || \
+        echo "Could not find project file"
+        
+        echo "=== Available simulators ==="
+        xcrun simctl list devices available | grep "iPhone 15"
+        
+        echo "=== Running tests ==="
+        set -o pipefail
+        
+        # Determine project path
+        if [ -f "TechnicalTest.xcodeproj/project.pbxproj" ]; then
+          PROJECT_PATH="TechnicalTest.xcodeproj"
+        elif [ -f "TechnicalTest/TechnicalTest.xcodeproj/project.pbxproj" ]; then
+          PROJECT_PATH="TechnicalTest/TechnicalTest.xcodeproj"
+        else
+          echo "❌ Cannot find .xcodeproj file"
+          exit 1
+        fi
+        
+        xcodebuild test \
+          -project "$PROJECT_PATH" \
+          -scheme TechnicalTest \
+          -destination 'platform=iOS Simulator,name=iPhone 15,OS=17.4' \
+          -enableCodeCoverage YES \
+          2>&1 | tee ios_test_output.log
+          
+        # Check for common error patterns
+        if grep -q "scheme.*not found\|Could not find scheme" ios_test_output.log; then
+          echo "❌ Scheme 'TechnicalTest' not found or not shared"
+          echo "Available schemes:"
+          xcodebuild -list -project "$PROJECT_PATH"
+          exit 1
+        fi
+
+    - name: Test Summary
+      if: always()
+      run: |
+        echo "✅ All tests completed successfully!"
+        if [ -f ios_test_output.log ]; then
+          echo "=== Last few lines of iOS test output ==="
+          tail -10 ios_test_output.log
+        fi
