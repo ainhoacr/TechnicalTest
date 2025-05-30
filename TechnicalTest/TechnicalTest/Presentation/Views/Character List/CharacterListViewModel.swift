@@ -64,14 +64,14 @@ private extension CharacterListViewModel {
         case let apiError as APIError:
             switch apiError {
             case .client:
-                return "Error en la solicitud. Por favor, inténtalo de nuevo."
+                "Error en la solicitud. Por favor, inténtalo de nuevo."
             case .server:
-                return "Error del servidor. Por favor, inténtalo más tarde."
+                "Error del servidor. Por favor, inténtalo más tarde."
             case .failed:
-                return "La solicitud falló. Verifica tu conexión."
+                "La solicitud falló. Verifica tu conexión."
             }
         default:
-            return "Ha ocurrido un error inesperado. Por favor, inténtalo de nuevo."
+            "Ha ocurrido un error inesperado. Por favor, inténtalo de nuevo."
         }
     }
 }

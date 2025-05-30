@@ -34,8 +34,11 @@ TechnicalTest/
 ├── Presentation/
 │   ├── App/
 │   │   └── TechnicalTestApp.swift
+│   ├── Preview Support/
+│   │   └── CharacterPreviewMocks.swift
 │   ├── Views/
 │   │   ├── Character List/
+│   │   ├── Character Detail View/
 │   │   └── Components/
 ├── Resources/
 │   ├── Assets/
@@ -46,12 +49,23 @@ TechnicalTest/
 
 1. Clona el repositorio
 2. Abre el proyecto con Xcode 16.4
-3. Asegúrate de que el destino mínimo es iOS 17
+3. Asegúrate de que el destino mínimo es iOS 18.5
 4. Corre el target `TechnicalTest`
 
 ## 🧪 Tests
 
 - Implementados con **Swift Testing**
+
+### 🔮 Trabajo futuro
+
+Actualmente no es posible ejecutar los tests en CI usando GitHub Actions debido a la falta de soporte para Xcode 16.4 e iOS SDK 18.5 en sus *runners* oficiales.  
+En cuanto el soporte esté disponible, se integrará un workflow automático para:
+
+- Ejecutar los tests de los módulos Swift Package (por ejemplo, `APIClientTests`)
+- Ejecutar los tests del proyecto iOS (`TechnicalTestTests`)
+- Generar cobertura de código y reportes automáticos
+
+> Puedes seguir el [estado de soporte de imágenes macOS en GitHub Actions](https://github.com/actions/runner-images) para conocer las actualizaciones.
 
 ## 📦 Estructura de Módulos
 

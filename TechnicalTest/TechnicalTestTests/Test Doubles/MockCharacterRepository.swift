@@ -8,7 +8,7 @@
 @testable import TechnicalTest
 @testable import APIClient
 
-class MockCharacterRepository: CharacterRepository {
+final class MockCharacterRepository: CharacterRepository {
     var charactersToReturn: [Character] = []
     var shouldThrowError = false
     var fetchAllCharactersCalled = false

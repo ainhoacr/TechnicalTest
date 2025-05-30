@@ -56,7 +56,11 @@ private struct CharacterGridView: View {
                 GridItem(.flexible())
             ], spacing: 16) {
                 ForEach(characters) { character in
-                    CharacterCardView(character: character)
+                    NavigationLink {
+                        CharacterDetailView(viewModel: CharacterDetailViewModel(character: character))
+                    } label: {
+                        CharacterCardView(character: character)
+                    }
                 }
             }
             .padding()
@@ -87,11 +91,7 @@ private struct ErrorView: View {
 #Preview {
     CharacterListView(
         viewModel: CharacterListViewModel(
-            getCharactersUseCase: GetCharactersUseCase(
-                repository: CharacterRepositoryImpl(
-                    apiClient: APIClient()
-                )
-            )
+            getCharactersUseCase: MockGetCharactersUseCase(characters: Character.previewList)
         )
     )
 }

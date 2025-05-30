@@ -38,7 +38,7 @@ private extension APIClient {
     ) throws -> E.ResponseBody {
         switch response.statusCode {
         case 200..<300:
-            return try endpoint.deserializeBody(data)
+            try endpoint.deserializeBody(data)
         case 400..<500:
             throw APIError.client
         case 500..<600:

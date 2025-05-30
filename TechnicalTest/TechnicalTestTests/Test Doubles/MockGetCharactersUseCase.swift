@@ -8,7 +8,7 @@
 @testable import TechnicalTest
 @testable import APIClient
 
-class MockGetCharactersUseCase: GetCharactersUseCaseProtocol {
+final class MockGetCharactersUseCase: GetCharactersUseCaseProtocol {
     var charactersToReturn: [Character] = []
     var shouldThrowError = false
     var errorToThrow: Error = APIError.failed

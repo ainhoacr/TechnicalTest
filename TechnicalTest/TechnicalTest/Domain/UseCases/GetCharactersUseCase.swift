@@ -20,6 +20,6 @@ public final class GetCharactersUseCase: GetCharactersUseCaseProtocol {
     }
     
     public func execute() async throws -> [Character] {
-        return try await repository.fetchAllCharacters()
+        try await repository.fetchAllCharacters()
     }
 }

@@ -60,11 +60,11 @@ private struct StatusIndicator: View {
     private var color: Color {
         switch status {
         case .alive:
-            return .green
+            .green
         case .dead:
-            return .red
+            .red
         case .unknown:
-            return .gray
+            .gray
         }
     }
 

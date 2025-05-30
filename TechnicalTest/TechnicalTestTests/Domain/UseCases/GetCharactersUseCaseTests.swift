@@ -62,7 +62,7 @@ struct GetCharactersUseCaseTests {
             _ = try await useCase.execute()
             Issue.record("Expected error to be thrown")
         } catch {
-            #expect(error != nil)
+            #expect(type(of: error) == APIError.self)
         }
     }
 }

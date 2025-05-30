@@ -1,6 +1,7 @@
 import Testing
 import Foundation
 @testable import TechnicalTest
+@testable import APIClient
 
 @MainActor
 @Suite("DependencyContainer Tests")
@@ -18,7 +19,6 @@ struct DependencyContainerTests {
         let container = DependencyContainer.shared
         let viewModel = container.makeCharacterListViewModel()
 
-        #expect(viewModel != nil)
         #expect(type(of: viewModel) == CharacterListViewModel.self)
     }
 
@@ -26,7 +26,6 @@ struct DependencyContainerTests {
     func repositoriesAreProperlyInitialized() {
         let container = DependencyContainer.shared
 
-        #expect(container.characterRepository != nil)
-        #expect(container.getCharactersUseCase != nil)
+        #expect(type(of: container.getCharactersUseCase) == GetCharactersUseCase.self)
     }
 }
