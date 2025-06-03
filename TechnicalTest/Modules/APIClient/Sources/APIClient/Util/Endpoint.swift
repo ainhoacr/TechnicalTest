@@ -35,7 +35,11 @@ public extension Endpoint {
         try JSONDecoder().decode(ResponseBody.self, from: data)
     }
 
-    func request(baseUrl: URL, body: RequestBody) throws -> URLRequest {
+    func request(
+        baseUrl: URL,
+        body: RequestBody,
+        contextID: String? = nil
+    ) throws -> URLRequest {
         var components = URLComponents()
         components.path = path
         components.queryItems = queryItems.isEmpty ? nil : queryItems
@@ -47,6 +51,7 @@ public extension Endpoint {
         var request = URLRequest(url: url.absoluteURL)
         request.httpMethod = method.rawValue
         httpHeaders.forEach { request.setHeader($0.name, value: $0.value) }
+        if let contextID { request.contextID = contextID }
         try serializeBody(body, into: &request)
 
         return request

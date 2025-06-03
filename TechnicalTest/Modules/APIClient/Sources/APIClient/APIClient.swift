@@ -10,16 +10,18 @@ import Foundation
 public actor APIClient {
     private let baseUrl: URL = URL(string: "https://rickandmortyapi.com/api/")!
     private let session: URLSession
+    private let contextID: String?
 
-    public init(session: URLSession = URLSession.shared) {
+    public init(session: URLSession = URLSession.shared, contextID: String? = nil) {
         self.session = session
+        self.contextID = contextID
     }
 
     public func request<E: Endpoint>(
         _ endpoint: E,
         body: E.RequestBody
     ) async throws -> E.ResponseBody {
-        let request = try endpoint.request(baseUrl: baseUrl, body: body)
+        let request = try endpoint.request(baseUrl: baseUrl, body: body, contextID: contextID)
         let (data, response) = try await session.data(for: request)
 
         guard let httpResponse = response as? HTTPURLResponse else {

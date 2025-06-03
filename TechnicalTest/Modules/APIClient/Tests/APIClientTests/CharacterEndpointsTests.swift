@@ -23,14 +23,15 @@ struct CharacterEndpointsTests {
         #expect(request.httpMethod == "GET")
     }
 
-    @Test("GetAllCharacters generates incorrect URL and method")
-    func getAllCharactersGeneratesIncorrectRequest() throws {
-        let endpoint = CharacterEndpoints.GetAllCharacters()
+    @Test("GetCharacter generates correct request for given ID")
+    func getCharacterGeneratesCorrectRequest() throws {
+        let endpoint = CharacterEndpoints.GetCharacter(id: 42)
+        let baseURL = URL(string: "https://rickandmortyapi.com/api/")!
 
-        let invalidBaseURL = URL(string: "")!
+        let request = try endpoint.request(baseUrl: baseURL, body: Empty.empty)
 
-        #expect(throws: APIError.client) {
-            _ = try endpoint.request(baseUrl: invalidBaseURL, body: Empty.empty)
-        }
+        #expect(request.url?.absoluteString == "https://rickandmortyapi.com/api/character/42")
+        #expect(request.httpMethod == "GET")
+        #expect(request.value(forHTTPHeaderField: "Accept") == "application/json")
     }
 }

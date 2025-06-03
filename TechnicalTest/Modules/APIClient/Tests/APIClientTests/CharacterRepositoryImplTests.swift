@@ -13,10 +13,11 @@ import Foundation
 struct CharacterRepositoryImplTests {
     @Test("getAllCharacters returns characters successfully")
     func getAllCharactersReturnsCharactersSuccessfully() async throws {
+        let contextID = "getAllCharactersReturnsCharactersSuccessfully"
         let config = URLSessionConfiguration.ephemeral
         config.protocolClasses = [MockURLProtocol.self]
         let session = URLSession(configuration: config)
-        let apiClient = APIClient(session: session)
+        let apiClient = APIClient(session: session, contextID: contextID)
         let repository = CharacterRepositoryImpl(apiClient: apiClient)
 
         let json = """
@@ -77,6 +78,7 @@ struct CharacterRepositoryImplTests {
         """
 
         await MockURLProtocolState.shared.setSuccess(
+            context: contextID,
             data: json.data(using: .utf8)!,
             statusCode: 200
         )
@@ -92,10 +94,11 @@ struct CharacterRepositoryImplTests {
 
     @Test("getAllCharacters returns empty list when no characters")
     func getAllCharactersReturnsEmptyListWhenNoCharacters() async throws {
+        let contextID = "getAllCharactersReturnsEmptyListWhenNoCharacters"
         let config = URLSessionConfiguration.ephemeral
         config.protocolClasses = [MockURLProtocol.self]
         let session = URLSession(configuration: config)
-        let apiClient = APIClient(session: session)
+        let apiClient = APIClient(session: session, contextID: contextID)
         let repository = CharacterRepositoryImpl(apiClient: apiClient)
 
         let json = """
@@ -111,6 +114,7 @@ struct CharacterRepositoryImplTests {
         """
 
         await MockURLProtocolState.shared.setSuccess(
+            context: contextID,
             data: json.data(using: .utf8)!,
             statusCode: 200
         )
@@ -124,13 +128,15 @@ struct CharacterRepositoryImplTests {
 
     @Test("getAllCharacters throws when API returns client error")
     func getAllCharactersThrowsWhenAPIReturnsClientError() async throws {
+        let contextID = "getAllCharactersThrowsWhenAPIReturnsClientError"
         let config = URLSessionConfiguration.ephemeral
         config.protocolClasses = [MockURLProtocol.self]
         let session = URLSession(configuration: config)
-        let apiClient = APIClient(session: session)
+        let apiClient = APIClient(session: session, contextID: contextID)
         let repository = CharacterRepositoryImpl(apiClient: apiClient)
 
         await MockURLProtocolState.shared.setSuccess(
+            context: contextID,
             data: Data(),
             statusCode: 404
         )
@@ -142,13 +148,15 @@ struct CharacterRepositoryImplTests {
 
     @Test("getAllCharacters throws when API returns server error")
     func getAllCharactersThrowsWhenAPIReturnsServerError() async throws {
+        let contextID = "getAllCharactersThrowsWhenAPIReturnsServerError"
         let config = URLSessionConfiguration.ephemeral
         config.protocolClasses = [MockURLProtocol.self]
         let session = URLSession(configuration: config)
-        let apiClient = APIClient(session: session)
+        let apiClient = APIClient(session: session, contextID: contextID)
         let repository = CharacterRepositoryImpl(apiClient: apiClient)
 
         await MockURLProtocolState.shared.setSuccess(
+            context: contextID,
             data: Data(),
             statusCode: 500
         )
@@ -160,14 +168,18 @@ struct CharacterRepositoryImplTests {
 
     @Test("getAllCharacters throws when network error occurs")
     func getAllCharactersThrowsWhenNetworkErrorOccurs() async throws {
+        let contextID = "getAllCharactersThrowsWhenNetworkErrorOccurs"
         let config = URLSessionConfiguration.ephemeral
         config.protocolClasses = [MockURLProtocol.self]
         let session = URLSession(configuration: config)
-        let apiClient = APIClient(session: session)
+        let apiClient = APIClient(session: session, contextID: contextID)
         let repository = CharacterRepositoryImpl(apiClient: apiClient)
 
         let networkError = URLError(.notConnectedToInternet)
-        await MockURLProtocolState.shared.setError(networkError)
+        await MockURLProtocolState.shared.setError(
+            context: contextID,
+            error: networkError
+        )
 
         await #expect(throws: URLError.self) {
             try await repository.fetchAllCharacters()
@@ -176,14 +188,16 @@ struct CharacterRepositoryImplTests {
 
     @Test("getAllCharacters throws when invalid JSON is received")
     func getAllCharactersThrowsWhenInvalidJSONReceived() async throws {
+        let contextID = "getAllCharactersThrowsWhenInvalidJSONReceived"
         let config = URLSessionConfiguration.ephemeral
         config.protocolClasses = [MockURLProtocol.self]
         let session = URLSession(configuration: config)
-        let apiClient = APIClient(session: session)
+        let apiClient = APIClient(session: session, contextID: contextID)
         let repository = CharacterRepositoryImpl(apiClient: apiClient)
 
         let invalidJSON = "{ invalid json }"
         await MockURLProtocolState.shared.setSuccess(
+            context: contextID,
             data: invalidJSON.data(using: .utf8)!,
             statusCode: 200
         )

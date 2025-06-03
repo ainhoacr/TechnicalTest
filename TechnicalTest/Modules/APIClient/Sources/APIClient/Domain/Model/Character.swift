@@ -27,7 +27,7 @@ public enum CharacterStatus: String, Sendable {
 public struct Character: Identifiable, Sendable {
     public let id: Int
     public let name: String
-    public var status: CharacterStatus
+    public let status: CharacterStatus
     public let species: String
     public let type: String
     public let gender: String

@@ -8,27 +8,25 @@
 import Foundation
 
 actor MockURLProtocolState {
-    var responseData: Data?
-    var responseStatusCode: Int = 200
-    var responseError: (any Error)?
+    struct Entry {
+        var data: Data?
+        var statusCode: Int
+        var error: Error?
+    }
 
+    private var entries: [String: Entry] = [:]
     static let shared = MockURLProtocolState()
 
-    func reset() {
-        responseData = nil
-        responseStatusCode = 200
-        responseError = nil
+    func setSuccess(context: String, data: Data, statusCode: Int = 200) {
+        entries[context] = Entry(data: data, statusCode: statusCode, error: nil)
     }
 
-    func setSuccess(data: Data, statusCode: Int = 200) {
-        self.responseData = data
-        self.responseStatusCode = statusCode
-        self.responseError = nil
+    func setError(context: String, error: Error) {
+        entries[context] = Entry(data: nil, statusCode: 0, error: error)
     }
 
-    func setError(_ error: any Error) {
-        self.responseError = error
-        self.responseData = nil
+    func getEntry(for context: String) -> Entry? {
+        entries[context]
     }
 }
 
@@ -43,26 +41,27 @@ final class MockURLProtocol: URLProtocol, @unchecked Sendable {
 
     override func startLoading() {
         Task {
-            let error = await MockURLProtocolState.shared.responseError
+            let contextID = request.contextID ?? "default"
+            guard let entry = await MockURLProtocolState.shared.getEntry(for: contextID) else {
+                client?.urlProtocol(self, didFailWithError: URLError(.unknown))
+                return
+            }
 
-            if let error = error {
+            if let error = entry.error {
                 client?.urlProtocol(self, didFailWithError: error)
                 return
             }
 
-            let statusCode = await MockURLProtocolState.shared.responseStatusCode
-            let data = await MockURLProtocolState.shared.responseData
-
             let response = HTTPURLResponse(
                 url: request.url!,
-                statusCode: statusCode,
+                statusCode: entry.statusCode,
                 httpVersion: nil,
                 headerFields: nil
             )!
 
             client?.urlProtocol(self, didReceive: response, cacheStoragePolicy: .notAllowed)
 
-            if let data = data {
+            if let data = entry.data {
                 client?.urlProtocol(self, didLoad: data)
             }
 
@@ -71,4 +70,14 @@ final class MockURLProtocol: URLProtocol, @unchecked Sendable {
     }
 
     override func stopLoading() {}
+}
+
+
+extension URLRequest {
+    private static let contextKey = "X-Test-Context-ID"
+
+    var contextID: String? {
+        get { value(forHTTPHeaderField: Self.contextKey) }
+        set { setValue(newValue, forHTTPHeaderField: Self.contextKey) }
+    }
 }
